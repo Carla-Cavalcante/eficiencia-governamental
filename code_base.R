@@ -99,31 +99,5 @@ geral7$rl <- as.numeric(geral7$rl)
 geral7$cc <- as.numeric(geral7$cc)
 geral7$pp.urbana <- as.numeric(geral7$pp.urbana)
 ###--------------------
-plot(geral6$p.democracy, geral6$ge)
-dim(geral7)
-geral6$pais
-head(geral7)
-modelo <- geral7[ , -1]
-summary(lm(ge ~., data = modelo))
 
-isso <- geral7[ , -c(1, 3)]
-isso <- isso[-c(34,38), ]
-
-library(corrplot)
-isso$va <- as.numeric(isso$va)
-isso$rq <- as.numeric(isso$rq)
-isso$rl <- as.numeric(isso$rl)
-isso$cc <- as.numeric(isso$cc)
-isso$pp.urbana <- as.numeric(isso$pp.urbana)
-
-cor <- cor(isso, use = "complete.obs")
-corrplot(cor)
-
-## Rodando pca 
-geral7
-
-
-install.packages("writexl")
-library(writexl)
-write.csv(geral9, "C:/Users/carla/Downloads/Trabalho_funcionarios/dado_funcionarios.csv")
 
