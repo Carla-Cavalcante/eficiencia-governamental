@@ -5,7 +5,7 @@ vi <- read.csv("C:/Users/user/Downloads/Trabalho_funcionarios/VI.csv")
 geral <- read.csv("C:/Users/user/Downloads/Trabalho_funcionarios/geral.csv")
 
 ## bancos por categoria ----------------------------------------------------------------------------------------
-# divisÃ£o por tipo de democracia
+# divisao por tipo de democracia
 
 aut_fechada <- read.csv("C:/Users/user/Downloads/Trabalho_funcionarios/autocracia_fechada.csv")
 
@@ -18,7 +18,7 @@ democr_eleitoral <- read.csv("C:/Users/user/Downloads/Trabalho_funcionarios/demo
 democracia_liberal <- read.csv("C:/Users/user/Downloads/Trabalho_funcionarios/democracia_liberal.csv")
 
 ## plot ----------------------------------------------------------------------
-# GrÃ¡fico das relaÃ§Ãµes
+# grafico com todas as vis
 plot(geral$lib.democracy, vd$eff.ajust, type = "n")
 text(geral$lib.democracy, vd$eff.ajust, labels = vd$pais, cex = 0.60)
 
@@ -49,19 +49,19 @@ x <- as.matrix(vd[ , c(3:7)])
 y <- as.matrix(vd[ , c(8:10)])
 
 # ajustando os valores negativos
-constante_cc <- abs(min(x[ , 1])) # extraindo o valor mÃ­nimo da coluna cc
+constante_cc <- abs(min(x[ , 1])) # extraindo o valor min da coluna cc
 constante_rq <- abs(min(x[ , 2]))
-x[ , 1] <- x[ , 1] + constante_cc # somando a costantes (advinda do valor mÃ­nimo da coluna) com cada observaÃ§Ã£o
+x[ , 1] <- x[ , 1] + constante_cc # somando a costantes (advinda do valor min da coluna) com cada observaÃ§Ã£o
 x[ , 2] <- x[ , 2] + constante_rq
 
 dea_ge <- dea(x, y, RTS = "vrs", ORIENTATION = "in") #utilizando DEA nos inputs e outputs com o modelo BCC
-dea_ge_bias <- dea.boot(x, y, RTS = "vrs", ORIENTATION = "in") #bootstrap das eficiÃªncias
+dea_ge_bias <- dea.boot(x, y, RTS = "vrs", ORIENTATION = "in") #bootstrap das eficiencias
 
 vd$eff.DEA <- efficiencies(dea_ge)
 vd$eff.ajust <- dea_ge_bias$eff.bc
 vd$bias <- dea_ge_bias$bias
 
-## CorrelaÃ§Ã£o
+## Correlacao
 sem_vi <- vi[ , -c(1, 2, 9)]
 #install.packages("ggcorrplot")
 library(ggcorrplot)
@@ -232,18 +232,3 @@ coeficientes6 <- data.frame(
   PC1 = pesos6
 )
 
-#-----------------------------------
-install.packages("kableExtra")
-library(knitr)
-library(kableExtra)
-
-tabela_eff <- vd[ , c(2, 11, 12, 13)]
-tabela_eff$eff.DEA <- round(tabela_eff$eff.DEA, 3)
-tabela_eff$bias <- round(tabela_eff$bias, 3)
-tabela_eff$eff.ajust <- round(tabela_eff$eff.ajust, 3)
-tabela_eff$eff.ajust
-
-kable(tabela_eff, format = "latex", booktabs = TRUE,
-      caption = "EficiÃªncia tÃ©cnica, viÃ©s estimado e eficiÃªncia ajustada dos paÃ­ses.",
-      align = "lccc") %>%
-  kable_styling(latex_options = c("hold_position", "striped", "scale_down"))
